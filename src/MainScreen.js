@@ -49,23 +49,29 @@ const MainScreen = () => {
     dispatch(actions.getTourDetail(tourId));
   };
 
-  /*
-    Conditionally render UI of main screen:
-    - If api is loading, show an activity indicator
-    - If api return error, show error message and retry button
-    - If everything is ok, show tour information
+  /**
+   * Conditionally render UI of main screen:
+   * If api is loading, show an activity indicator
+   * If api return error, show error message and retry button
+   * If everything is ok, show tour information
    */
   let content;
   if (loading) {
     content = (
       <View style={styles.errorContainer}>
-        <ActivityIndicator />
+        <ActivityIndicator
+          testID="activityIndicator"
+          size="large"
+          color={Colors.colorPrimary}
+        />
       </View>
     );
   } else if (error) {
     content = (
       <View style={styles.errorContainer}>
-        <Text style={styles.sectionTitle}>{error.message}</Text>
+        <Text style={[styles.sectionTitle, {marginBottom: 10}]}>
+          {error.message}
+        </Text>
         <Button title="Retry" onPress={getTourDetail} />
       </View>
     );
@@ -75,104 +81,121 @@ const MainScreen = () => {
       location = tour.locations[0].name;
     }
     content = (
-      <View>
-        <PhotoSlider images={tour.images} />
-        <View style={styles.sectionContainer}>
-          <Text style={styles.title}>{tour.name}</Text>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              marginHorizontal: 15,
-            }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              <Image
-                resizeMode="contain"
-                source={require('../assets/images/location.png')}
-              />
-              <Text style={styles.sectionDescription}>{location}</Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginStart: 120,
-              }}>
-              <Image
-                resizeMode="contain"
-                source={require('../assets/images/star.png')}
-              />
-              <View style={{flexDirection: 'row'}}>
-                <Text style={styles.sectionDescription}>
-                  {tour.average_rating.toFixed(2)}
-                </Text>
-                <Text
-                  style={styles.lightText}>{`(${tour.no_of_reviews})`}</Text>
-              </View>
-            </View>
-          </View>
-
-          <Line />
-
-          <ActivityOverview tour={tour} />
-
-          <Line />
-
-          <ThingsToDo tour={tour} />
-
-          <Line />
-
-          <Description includes={tour.inclusion} excludes={tour.exclusion} />
-
-          <Line />
-
-          <Review tour={tour} />
-
-          <Line />
-
-          {tour.cancellation_policy && tour.cancellation_policy.length > 0 ? (
-            <View>
-              <Text style={styles.sectionTitle}>Cancelation Policy</Text>
-              <Text style={styles.sectionDescription}>
-                {tour.cancellation_policy}
+      <View style={[commonStyles.container, {paddingBottom: 34}]}>
+        <ScrollView>
+          <View>
+            {tour.images && tour.images.length > 0 ? (
+              <PhotoSlider images={tour.images} testID="slider" />
+            ) : null}
+            <View style={styles.sectionContainer}>
+              <Text testID="tourName" style={styles.title}>
+                {tour.name}
               </Text>
-            </View>
-          ) : null}
 
-          <Line />
-
-          {tour.covid19_precautions && tour.covid19_precautions.length > 0 ? (
-            <View>
-              <TouchableOpacity>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  marginHorizontal: 15,
+                }}>
                 <View
                   style={{
                     flexDirection: 'row',
-                    justifyContent: 'space-between',
+                    alignItems: 'center',
                   }}>
-                  <Text style={styles.sectionTitle}>COVID-19 Precautions</Text>
-                  <Icon name="chevron-right" size={24} />
+                  <Image
+                    resizeMode="contain"
+                    source={require('../assets/images/location.png')}
+                  />
+                  <Text testID="location" style={styles.sectionDescription}>
+                    {location}
+                  </Text>
                 </View>
-              </TouchableOpacity>
-              <Line />
-            </View>
-          ) : null}
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginStart: 120,
+                  }}>
+                  <Image
+                    resizeMode="contain"
+                    source={require('../assets/images/star.png')}
+                  />
+                  <View style={{flexDirection: 'row'}} testID="rating">
+                    <Text style={styles.sectionDescription}>
+                      {tour.average_rating.toFixed(2)}
+                    </Text>
+                    <Text
+                      style={
+                        styles.lightText
+                      }>{`(${tour.no_of_reviews})`}</Text>
+                  </View>
+                </View>
+              </View>
 
-          <RelatedTours tours={tour.options} />
-        </View>
+              <Line />
+
+              <ActivityOverview tour={tour} />
+
+              <Line />
+
+              <ThingsToDo tour={tour} />
+
+              <Line />
+
+              <Description
+                includes={tour.inclusion}
+                excludes={tour.exclusion}
+              />
+
+              <Line />
+              {tour.reviews && tour.reviews.length > 0 ? (
+                <View testID="review">
+                  <Review tour={tour} />
+                  <Line />
+                </View>
+              ) : null}
+
+              {tour.cancellation_policy &&
+              tour.cancellation_policy.length > 0 ? (
+                <View testID="cancelPolicy">
+                  <Text style={styles.sectionTitle}>Cancelation Policy</Text>
+                  <Text style={styles.sectionDescription}>
+                    {tour.cancellation_policy}
+                  </Text>
+                </View>
+              ) : null}
+
+              <Line />
+
+              {tour.covid19_precautions &&
+              tour.covid19_precautions.length > 0 ? (
+                <View testID="covid19">
+                  <TouchableOpacity>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                      }}>
+                      <Text style={styles.sectionTitle}>
+                        COVID-19 Precautions
+                      </Text>
+                      <Icon name="chevron-right" size={24} />
+                    </View>
+                  </TouchableOpacity>
+                  <Line />
+                </View>
+              ) : null}
+
+              <RelatedTours />
+            </View>
+          </View>
+        </ScrollView>
+        <TopBar style={styles.topBar} />
       </View>
     );
   }
 
-  return (
-    <View style={[commonStyles.container, {paddingBottom: 34}]}>
-      <ScrollView>{content}</ScrollView>
-      <TopBar style={styles.topBar} />
-    </View>
-  );
+  return content;
 };
 
 const styles = StyleSheet.create({
@@ -209,6 +232,7 @@ const styles = StyleSheet.create({
   errorContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+    flex: 1,
   },
 });
 

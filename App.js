@@ -19,10 +19,12 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <StatusBar barStyle="light-content" />
-        <AppStackNavigator />
-      </NavigationContainer>
+      <StatusBar
+        barStyle="light-content"
+        translucent
+        backgroundColor="transparent"
+      />
+      <MainScreen />
     </Provider>
   );
 };

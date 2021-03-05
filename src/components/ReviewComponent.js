@@ -47,7 +47,7 @@ const Review = ({tour}) => {
         data={reviewList}
         horizontal
         renderItem={renderItem}
-        keyExtractor={(_, index) => `key_${index}`}
+        keyExtractor={(item, _) => `key_${item.id}`}
         style={styles.reviewListStyle}
         ItemSeparatorComponent={renderSeparator}
         showsHorizontalScrollIndicator={false}

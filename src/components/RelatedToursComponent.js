@@ -42,20 +42,24 @@ const RelatedTours = () => {
     );
   };
 
-  return (
-    <View style={commonStyles.container}>
-      <Text style={styles.title}>You Might Also Like</Text>
-      <FlatList
-        style={{marginHorizontal: 15, marginTop: 10}}
-        data={relatedTours}
-        horizontal
-        renderItem={renderItem}
-        keyExtractor={(_, index) => `key_${index}`}
-        showsHorizontalScrollIndicator={false}
-        ItemSeparatorComponent={renderSeparator}
-      />
-    </View>
-  );
+  if (relatedTours && relatedTours.length > 0) {
+    return (
+      <View style={commonStyles.container} testID="related">
+        <Text style={styles.title}>You Might Also Like</Text>
+        <FlatList
+          style={{marginHorizontal: 15, marginTop: 10}}
+          data={relatedTours}
+          horizontal
+          renderItem={renderItem}
+          keyExtractor={(item, _) => `key_${item.id}_${item.name}`}
+          showsHorizontalScrollIndicator={false}
+          ItemSeparatorComponent={renderSeparator}
+        />
+      </View>
+    );
+  } else {
+    return null;
+  }
 };
 
 const styles = StyleSheet.create({

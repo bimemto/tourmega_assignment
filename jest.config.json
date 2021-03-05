@@ -1,0 +1,27 @@
+{
+	"testEnvironment": "jsdom",
+	"preset": "react-native",
+	"collectCoverage": true,
+	"setupFilesAfterEnv": ["@testing-library/jest-native/extend-expect"],
+	"moduleDirectories": [
+		"node_modules",
+		"src"
+	],
+	"transform": {
+		"^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
+	},
+	"setupFiles": [
+		"<rootDir>/jest/setup.js",
+		"./node_modules/react-native-gesture-handler/jestSetup.js"
+	],
+	"transformIgnorePatterns": [
+		"node_modules/(?!(jest-)?react-native|@react-native-community|@react-navigation)"
+	],
+	"coveragePathIgnorePatterns": [
+		"/node_modules/",
+		"/jest"
+	],
+	"globals": {
+		"window": {}
+	}
+}

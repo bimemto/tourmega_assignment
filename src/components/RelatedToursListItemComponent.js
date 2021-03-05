@@ -36,7 +36,10 @@ const RelatedToursListItem = ({relatedItem}) => {
           <Text style={{color: colorGray}}>/person</Text>
         </View>
         <TouchableOpacity style={styles.heart}>
-          <Image source={require('../../assets/images/ic_heart.png')} />
+          <Image
+            resizeMode="contain"
+            source={require('../../assets/images/ic_heart.png')}
+          />
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
@@ -46,21 +49,13 @@ const RelatedToursListItem = ({relatedItem}) => {
 const styles = StyleSheet.create({
   card: {
     borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
     width: 200,
     borderWidth: 0.5,
     borderColor: colorGray,
   },
   image: {
-    borderTopStartRadius: 8,
-    borderTopEndRadius: 8,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
     aspectRatio: 1.5,
     width: 200,
     resizeMode: 'cover',

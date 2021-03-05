@@ -36,7 +36,7 @@ const Description = ({includes, excludes}) => {
    */
   const buildItem = (isIncluded, title) => {
     return (
-      <View style={styles.rowContainer}>
+      <View style={styles.rowContainer} key={title}>
         {isIncluded ? (
           <Icon name="check" size={18} color={Colors.colorPrimary} />
         ) : (

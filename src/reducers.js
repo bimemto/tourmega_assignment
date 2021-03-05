@@ -1,6 +1,13 @@
 import * as types from './actions/actionTypes';
 
-export default function reducer(state = {}, action) {
+const getInitialState = () => ({
+  loading: true,
+  error: null,
+  tour: null,
+  relatedTours: [],
+});
+
+export default function reducer(state = getInitialState(), action) {
   switch (action.type) {
     case types.REQUEST_TOUR_DETAIL_STARTED:
       return {

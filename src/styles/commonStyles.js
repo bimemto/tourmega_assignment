@@ -1,12 +1,12 @@
 import {StyleSheet} from 'react-native';
 import * as Colors from './colors';
 
-export default commonStyles = StyleSheet.create({
+const commonStyles = StyleSheet.create({
   container: {
     flex: 1,
   },
   line: {
-    height: 1,
+    height: 0.5,
     backgroundColor: Colors.colorGray,
     marginHorizontal: 15,
     marginVertical: 25,
@@ -22,3 +22,5 @@ export default commonStyles = StyleSheet.create({
     marginHorizontal: 15,
   },
 });
+
+export default commonStyles;

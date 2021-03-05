@@ -14,17 +14,17 @@ const ActivityOverview = ({tour}) => {
    *
    * @param {String} image The icon of activity item.
    * @param {String} title The title of activity item.
-   * * @param {boolean} available Indicate the activity is available or not.
+   * * @param {boolean} highlight should highlight the activity icon and text color.
    * @return {Component} Component to render row item.
    */
-  const buildItemRow = (image, title, available) => {
+  const buildItemRow = (image, title, highlight) => {
     return (
       <View style={styles.rowContainer}>
         <Image
-          style={available ? styles.imageAvailable : styles.image}
+          style={highlight ? styles.imageAvailable : styles.image}
           source={image}
         />
-        <Text style={available ? styles.rowTextAvailable : styles.rowText}>
+        <Text style={highlight ? styles.rowTextAvailable : styles.rowText}>
           {title}
         </Text>
       </View>
@@ -32,39 +32,46 @@ const ActivityOverview = ({tour}) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="overview">
       <Text style={commonStyles.sectionTitle}>Activity Overview</Text>
-      {buildItemRow(
-        require('../../assets/images/cancellation.png'),
-        'Free Cancelation',
-        tour.cancellation_policy && tour.cancellation_policy.length > 0,
-      )}
-      {buildItemRow(
-        require('../../assets/images/duration.png'),
-        tour.duration_in_text,
-        tour.duration_in_text && tour.duration_in_text.length > 0,
-      )}
-      {buildItemRow(
-        require('../../assets/images/car.png'),
-        'Pickup included',
-        tour.meeting_point_or_pickup_address &&
-          tour.meeting_point_or_pickup_address.length > 0,
-      )}
-      {buildItemRow(
-        require('../../assets/images/people.png'),
-        `Up to ${tour.max_quantity} people`,
-        tour.max_quantity && tour.max_quantity > 0,
-      )}
-      {buildItemRow(
-        require('../../assets/images/language.png'),
-        'Offer in English',
-        tour.languages && tour.languages.length > 0,
-      )}
-      {buildItemRow(
-        require('../../assets/images/covid.png'),
-        'COVID-19 Precautions',
-        tour.covid19_precautions && tour.covid19_precautions.length > 0,
-      )}
+      {tour.cancellation_policy && tour.cancellation_policy.length > 0
+        ? buildItemRow(
+            require('../../assets/images/cancellation.png'),
+            'Free Cancelation',
+            true,
+          )
+        : null}
+      {tour.duration_in_text && tour.duration_in_text.length > 0
+        ? buildItemRow(
+            require('../../assets/images/duration.png'),
+            tour.duration_in_text,
+          )
+        : null}
+      {tour.meeting_point_or_pickup_address &&
+      tour.meeting_point_or_pickup_address.length > 0
+        ? buildItemRow(
+            require('../../assets/images/car.png'),
+            'Pickup included',
+          )
+        : null}
+      {tour.max_quantity && tour.max_quantity > 0
+        ? buildItemRow(
+            require('../../assets/images/people.png'),
+            `Up to ${tour.max_quantity} people`,
+          )
+        : null}
+      {tour.languages && tour.languages.length > 0
+        ? buildItemRow(
+            require('../../assets/images/language.png'),
+            'Offer in English',
+          )
+        : null}
+      {tour.covid19_precautions && tour.covid19_precautions.length > 0
+        ? buildItemRow(
+            require('../../assets/images/covid.png'),
+            'COVID-19 Precautions',
+          )
+        : null}
     </View>
   );
 };

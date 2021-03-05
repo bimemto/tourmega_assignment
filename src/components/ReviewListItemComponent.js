@@ -1,7 +1,7 @@
 /**
  * Component represent an item of review list
  */
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   StyleSheet,
@@ -16,6 +16,17 @@ import Avatar from './AvatarComponent';
 const screenWidth = Dimensions.get('window').width;
 
 const ReviewListItem = ({reviewItem}) => {
+  const [showReadMore, setShowReadMore] = useState(false);
+
+  /**
+   * Detect the line number of comment Text.
+   * If line number > 4 then we show read more button. Otherwise, hide it.
+   */
+  const onTextLayout = (e) => {
+    let {lines} = e.nativeEvent;
+    setShowReadMore(lines.length > 4);
+  };
+
   return (
     <View style={styles.card}>
       <View>
@@ -31,14 +42,19 @@ const ReviewListItem = ({reviewItem}) => {
             </Text>
           </View>
         </View>
-        <Text numberOfLines={5} style={styles.reviewContent}>
-          {reviewItem.comment.replaceAll('<p>', '').replaceAll('</p>', '')}
+        <Text
+          numberOfLines={5}
+          style={styles.reviewContent}
+          onTextLayout={onTextLayout}>
+          {reviewItem.comment.split('<p>').join('').split('</p>').join('')}
         </Text>
-        <TouchableOpacity>
-          <View style={{borderBottomWidth: 0.5, alignSelf: 'flex-end'}}>
-            <Text style={styles.readMore}>read more</Text>
-          </View>
-        </TouchableOpacity>
+        {showReadMore ? (
+          <TouchableOpacity>
+            <View style={{borderBottomWidth: 0.5, alignSelf: 'flex-end'}}>
+              <Text style={styles.readMore}>read more</Text>
+            </View>
+          </TouchableOpacity>
+        ) : null}
       </View>
     </View>
   );
